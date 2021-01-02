@@ -1,5 +1,6 @@
 package com.ikwattro.spring.actuator;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 public class SetLoggerAccessChecker {
 
     public boolean isAuthorizedToChangeLogs(Authentication authentication, HttpServletRequest request) {
-        return ((User) authentication.getPrincipal()).getUsername().equals("admin");
+        if (request.getMethod().equals(HttpMethod.POST.name())) {
+            return ((User) authentication.getPrincipal()).getUsername().equals("admin");
+        }
+
+        return true;
     }
 }

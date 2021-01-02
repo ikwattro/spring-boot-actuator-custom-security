@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/**").httpBasic();
-        http.requestMatcher(EndpointRequest.to(LoggersEndpoint.class)).authorizeRequests((requests) -> {
+        http.csrf().disable().requestMatcher(EndpointRequest.to(LoggersEndpoint.class)).authorizeRequests((requests) -> {
             requests.anyRequest().access("@setLoggerAccessChecker.isAuthorizedToChangeLogs(authentication, request)");
         });
     }
